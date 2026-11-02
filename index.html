@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lovely Runner — Editorial Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Permanent+Marker&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#7b1fa2;--accent-light:#ba68c8;--accent-dark:#4a0072;
+  --wine:#7b1fa2;--wine1:#52152d;--wine2:#210914;
+  --ink:#080808;--white:#f8f7f5;--line:rgba(255,255,255,.82);
+}
+[data-theme="pastel-pink"]{--accent:#ffb5a7;--accent-light:#ffcad4;--accent-dark:#b5838d;--wine:#4a2832;--wine1:#6b3848;--wine2:#2d141d}
+[data-theme="mint"]{--accent:#b5e2fa;--accent-light:#c7f9cc;--accent-dark:#68b684;--wine:#1c3329;--wine1:#284e3d;--wine2:#0f1d17}
+[data-theme="lavender"]{--accent:#dcd6f7;--accent-light:#f4eeff;--accent-dark:#9381ff;--wine:#2b2640;--wine1:#423a63;--wine2:#161324}
+[data-theme="peach"]{--accent:#ffdab9;--accent-light:#ffe5d9;--accent-dark:#e09f6b;--wine:#4a2e2b;--wine1:#6b433e;--wine2:#261614}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100%;font-family:Outfit,sans-serif}
+body{min-height:100svh;display:grid;place-items:center;padding:14px;background:#090609;color:#fff;overflow:auto}
+button,input{font:inherit}
+button{color:inherit}
+
+.canvas-wrapper{
+  position:relative;width:min(min(96vw, 1050px), calc(90svh * 1.0));
+  aspect-ratio:1/1;padding:3px;border-radius:24px;isolation:isolate;
+  box-shadow:0 24px 80px #000c,0 0 35px color-mix(in srgb,var(--accent) 25%,transparent);
+  overflow:hidden
+}
+.canvas-wrapper:before{
+  content:"";position:absolute;inset:-60%;z-index:-2;
+  background:conic-gradient(from 0deg,transparent 0 245deg,var(--accent) 275deg,var(--accent-light) 305deg,#fff 325deg,var(--accent) 345deg,transparent 360deg);
+  animation:spin 8s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.poster{
+  position:relative;width:100%;height:100%;overflow:hidden;border-radius:21px;
+  isolation:isolate;background:
+    radial-gradient(ellipse at 68% 36%,color-mix(in srgb,var(--wine1) 72%,#24121b) 0%,transparent 54%),
+    radial-gradient(ellipse at 18% 78%,color-mix(in srgb,var(--accent-dark) 16%,transparent),transparent 40%),
+    linear-gradient(135deg,#21131b,var(--wine2) 76%,#070707);
+}
+.poster:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,#0009,transparent 48%,#0005),repeating-linear-gradient(0deg,transparent 0 3px,#fff05 4px)}
+#hearts-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+.grain{position:absolute;inset:0;z-index:18;pointer-events:none;opacity:.12;background-image:url("https://www.transparenttextures.com/patterns/stardust.png")}
+.vignette{position:absolute;inset:0;z-index:17;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,#0009 100%)}
+
+.palette-btn{
+  position:absolute;z-index:22;left:4%;top:4%;border:1px solid var(--line);border-radius:30px;
+  padding:8px 16px;background:#050505e8;color:#fff;font-size:clamp(8px,.9vw,11px);font-weight:600;
+  cursor:pointer;backdrop-filter:blur(8px);transition:.25s
+}
+.palette-btn:hover{background:var(--accent);color:#090909;border-color:#fff;transform:translateY(-2px)}
+
+/* TARJETA DE SHIROU (Ruta local: assets/shirou.png) */
+.logo-card{
+  position:absolute;z-index:12;left:69%;top:18%;width:24%;height:28%;
+  display:block;overflow:hidden;text-decoration:none;background:#111;
+  border:1px solid rgba(255,255,255,.9);border-radius:17px;
+  transform:rotate(-3deg);box-shadow:0 12px 28px #0009,0 0 18px color-mix(in srgb,var(--accent) 24%,transparent);
+  transition:transform .35s ease,box-shadow .35s ease
+}
+.card-img-wrap{position:relative;width:100%;height:100%;overflow:hidden}
+.card-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center;transition:filter .4s ease,transform .5s ease}
+.logo-card:hover{transform:rotate(0) translateY(-4px);box-shadow:0 16px 35px #000b,0 0 22px var(--accent)}
+.logo-card:hover img{filter:grayscale(1) contrast(1.1);transform:scale(1.05)}
+.card-tag{position:absolute;right:8px;bottom:8px;padding:4px 10px;border:1px solid #fff;
+  border-radius:20px;background:#080808d9;color:#fff;font-size:9px;letter-spacing:1.5px}
+
+.soft-light{position:absolute;z-index:1;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 66% 38%,color-mix(in srgb,var(--accent-light) 23%,transparent),transparent 37%),
+  linear-gradient(125deg,transparent 30%,#fff08 49%,transparent 66%);mix-blend-mode:screen;opacity:.65}
+
+.orbit{position:absolute;z-index:1;border:1px solid rgba(255,255,255,.85);border-radius:50%;pointer-events:none}
+.orbit:after{content:"";position:absolute;inset:9%;border:1px solid rgba(255,255,255,.24);border-radius:50%}
+.orbit-left{width:34%;aspect-ratio:1;left:7%;top:35%;border-width:1px}
+.orbit-bottom{width:42%;height:27%;left:4%;bottom:8%;transform:rotate(-8deg)}
+.orbit-right{width:25%;aspect-ratio:1;right:3%;bottom:8%;border-width:1px}
+.orbit-small{width:10%;aspect-ratio:1;left:25%;bottom:22%;border-color:rgba(255,255,255,.7)}
+
+.outline-title{
+  position:absolute;z-index:3;left:69%;top:8%;
+  font-size:clamp(16px,2.2vw,24px);font-weight:900;line-height:.9;
+  letter-spacing:-1px;color:#fff;text-shadow:0 2px 10px #000;opacity:.92;
+  text-align:left;width:24%
+}
+.outline-title span{display:inline-block;color:transparent;-webkit-text-stroke:1px #fff;margin-left:4px}
+
+/* PERSONAJE PRINCIPAL (Ruta local: assets/personaje.png) */
+.main-character{
+  position:absolute;z-index:8;width:82%;height:112%;right:2%;top:-2%;
+  display:flex;align-items:flex-end;justify-content:center;pointer-events:none
+}
+.main-character img{width:100%;height:100%;object-fit:contain;object-position:center bottom;filter:drop-shadow(-14px 11px 20px #000b) drop-shadow(0 0 16px color-mix(in srgb,var(--accent) 25%,transparent))}
+
+.description{position:absolute;z-index:10;left:5%;top:26%;width:34%;font-family:"Permanent Marker",cursive;font-size:clamp(8px,1.1vw,13px);line-height:1.35;color:#f7f3f1;transform:rotate(-2deg);text-shadow:2px 3px 6px #000}
+.description span{color:var(--accent-light)}
+
+.music-player{
+  position:absolute;z-index:13;left:5%;top:67%;width:30%;min-width:175px;padding:10px 12px;
+  border:1px solid rgba(255,255,255,.3);border-radius:20px;
+  background:linear-gradient(135deg,rgba(15,15,15,.9),rgba(30,15,22,.8));
+  box-shadow:0 12px 30px #000a, inset 0 1px 1px rgba(255,255,255,.2);
+  backdrop-filter:blur(12px)
+}
+.music-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.music-label{font-size:clamp(6px,.65vw,8px);font-weight:800;letter-spacing:1px;color:var(--accent-light);text-transform:uppercase}
+.track-name{font-size:clamp(8px,.9vw,11px);font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px}
+.music-controls{display:flex;align-items:center;gap:7px}
+.music-controls button{border:0;background:rgba(255,255,255,.08);cursor:pointer;width:23px;height:23px;border-radius:50%;font-size:10px;display:grid;place-items:center;transition:.2s}
+.music-controls button:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
+.music-controls .play-btn{background:var(--accent);color:#fff;font-weight:900;width:28px;height:28px;font-size:12px}
+.progress-wrap{flex:1}
+.progress,.volume{width:100%;height:3px;accent-color:var(--accent);cursor:pointer;border-radius:2px}
+.time-row{display:flex;justify-content:space-between;font-size:7px;color:#aaa;margin-top:2px}
+.volume-row{display:flex;align-items:center;gap:4px;width:50px;font-size:9px}
+
+.name{position:absolute;z-index:9;left:5%;top:82%;font-size:clamp(30px,5.5vw,62px);font-weight:900;line-height:.78;letter-spacing:-3px;text-shadow:0 4px 18px #000}
+.name span{display:block;color:var(--accent);margin-left:18%;-webkit-text-stroke:.5px #fff;text-shadow:0 0 15px var(--accent)}
+
+.heart-button{
+  position:absolute;z-index:14;left:5%;top:15%;width:44px;aspect-ratio:1;
+  border:1px solid #fff;border-radius:50%;background:#050505;color:#fff;
+  display:grid;place-items:center;font-size:18px;cursor:pointer;box-shadow:0 8px 20px #0009;
+  transition:.2s
+}
+.heart-button:hover{color:var(--accent);transform:scale(1.08)}
+
+.tag-pill{position:absolute;z-index:14;right:3%;bottom:9%;min-width:190px;padding:19px 25px;border:1px solid #fff;border-radius:35px;background:#050505;text-align:center;font-size:clamp(9px,1vw,12px)}
+.tag-pill button{margin-left:14px;border:0;background:none;color:#fff;cursor:pointer}
+.find-tags{position:absolute;z-index:14;right:5%;bottom:5%;font-size:clamp(7px,.8vw,9px);text-transform:uppercase;color:#ddd}
+
+@media(max-width:650px){
+ body{padding:5px}.canvas-wrapper{width:98vw;border-radius:13px;padding:2px}.poster{border-radius:11px}
+ .palette-btn{padding:5px 8px}.logo-card{left:4%;top:18%;width:25%;height:24%}
+ .outline-title{left:4%;top:8%;width:90%;text-align:center}
+ .main-character{width:70%;right:4%;height:95%}
+ .music-player{left:4%;top:74%;width:34%;min-width:0;padding:7px}
+ .name{left:8%;top:86%;font-size:clamp(24px,7vw,45px)}
+ .tag-pill{right:5%;bottom:12%;min-width:0;padding:12px}
+ .heart-button{width:35px;font-size:16px}
+}
+@media(max-width:420px){
+ .logo-card{width:27%;height:22%}
+ .music-player{width:39%;left:4%;top:75%}.volume-row{width:36px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="canvas-wrapper">
+ <main class="poster" id="poster">
+  <canvas id="hearts-canvas"></canvas>
+  <div class="soft-light"></div>
+  <div class="orbit orbit-left"></div><div class="orbit orbit-bottom"></div>
+  <div class="orbit orbit-right"></div><div class="orbit orbit-small"></div>
+
+  <button class="palette-btn" id="paletteBtn">✦ <span id="themeName">Uva Nocturna</span></button>
+
+  <!-- IMAGEN SHIROU LOCAL -->
+  <a class="logo-card" href="https://xat.me/xShirou" target="_blank" rel="noopener" title="Shirou">
+   <div class="card-img-wrap"><img src="assets/shirou.png" alt="Shirou"></div>
+   <span class="card-tag">shirou</span>
+  </a>
+
+  <div class="outline-title">SOME <span>MEMORIES</span></div>
+
+  <div class="description">Kadang aku guman, karo komunitas kie, ana drama kie lah, ana drama kue.
+   <span>Jan, ana unit elit lah, unit kompe anime lah, boro-boro aku mlebu...</span>
+  </div>
+
+  <!-- IMAGEN PRINCIPAL LOCAL -->
+  <div class="main-character">
+   <img src="assets/personaje.png" alt="Personaje principal">
+  </div>
+
+  <div class="music-player">
+   <div class="music-header">
+    <div class="music-label">♫ SOUNDTRACK</div>
+   </div>
+   <div class="track-name" id="trackName">Lovely Runner · Track 01</div>
+   <div class="music-controls">
+    <button id="prevBtn" aria-label="Canción anterior">⏮</button>
+    <button id="playBtn" class="play-btn" aria-label="Reproducir">▶</button>
+    <button id="nextBtn" aria-label="Siguiente canción">⏭</button>
+    <div class="progress-wrap">
+     <input id="progress" class="progress" type="range" min="0" max="100" value="0" aria-label="Progreso">
+     <div class="time-row"><span id="currentTime">0:00</span><span id="duration">0:00</span></div>
+    </div>
+    <div class="volume-row"><span id="volumeIcon">🔊</span><input id="volume" class="volume" type="range" min="0" max="1" step=".01" value=".65" aria-label="Volumen"></div>
+   </div>
+  </div>
+
+  <div class="name">Lovely<span>Runner</span></div>
+  <button class="heart-button" id="likeBtn" aria-label="Me gusta">♥</button>
+
+  <div class="tag-pill">#LOVELY4YOU <button id="removeTag" aria-label="Quitar etiqueta">×</button></div>
+  <div class="find-tags">FIND MORE TAGS ›</div>
+
+  <div class="vignette"></div><div class="grain"></div>
+ </main>
+</div>
+<audio id="audio" preload="metadata"></audio>
+<script>
+const themes=[
+ {attr:"",name:"Uva Nocturna",colors:["rgba(123,31,162,.72)","rgba(186,104,200,.72)","rgba(255,255,255,.8)","rgba(74,0,114,.6)"]},
+ {attr:"pastel-pink",name:"Rosa Pastel",colors:["rgba(255,181,167,.72)","rgba(255,202,212,.72)","rgba(255,255,255,.8)","rgba(181,131,141,.6)"]},
+ {attr:"mint",name:"Menta Pastel",colors:["rgba(181,226,250,.72)","rgba(199,249,204,.72)","rgba(255,255,255,.8)","rgba(104,182,132,.6)"]},
+ {attr:"lavender",name:"Lavanda Pastel",colors:["rgba(220,214,247,.72)","rgba(244,238,255,.72)","rgba(255,255,255,.8)","rgba(147,129,255,.6)"]},
+ {attr:"peach",name:"Durazno Pastel",colors:["rgba(255,218,185,.72)","rgba(255,229,217,.72)","rgba(255,255,255,.8)","rgba(224,159,107,.6)"]}
+];
+let themeIndex=0,heartColors=themes[0].colors;
+document.getElementById("paletteBtn").addEventListener("click",()=>{
+ themeIndex=(themeIndex+1)%themes.length;const t=themes[themeIndex];
+ if(t.attr)document.documentElement.dataset.theme=t.attr;else document.documentElement.removeAttribute("data-theme");
+ document.getElementById("themeName").textContent=t.name;heartColors=t.colors;
+});
+document.getElementById("likeBtn").addEventListener("click",e=>{e.currentTarget.textContent=e.currentTarget.textContent==="♥"?"♡":"♥";});
+document.getElementById("removeTag").addEventListener("click",()=>document.querySelector(".tag-pill").style.display="none");
+
+const tracks=[
+ {name:"Lovely Runner · Track 01",src:"assets/0.mp3"},
+ {name:"Lovely Runner · Track 02",src:"assets/1.mp3"},
+ {name:"Lovely Runner · Track 03",src:"assets/2.mp3"}
+];
+const audio=document.getElementById("audio"),playBtn=document.getElementById("playBtn");
+const progress=document.getElementById("progress"),volume=document.getElementById("volume");
+let trackIndex=0,seeking=false;
+const $=id=>document.getElementById(id);
+function time(s){if(!Number.isFinite(s))return"0:00";return Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0")}
+function loadTrack(i,autoplay=false){
+ trackIndex=(i+tracks.length)%tracks.length;audio.src=tracks[trackIndex].src;
+ $("trackName").textContent=tracks[trackIndex].name;progress.value=0;
+ $("currentTime").textContent="0:00";$("duration").textContent="0:00";playBtn.textContent="▶";
+ if(autoplay)audio.play().catch(()=>{playBtn.textContent="▶"});
+}
+playBtn.addEventListener("click",()=>{if(audio.paused)audio.play().catch(()=>{});else audio.pause()});
+$("prevBtn").addEventListener("click",()=>loadTrack(trackIndex-1,true));
+$("nextBtn").addEventListener("click",()=>loadTrack(trackIndex+1,true));
+audio.addEventListener("play",()=>playBtn.textContent="Ⅱ");
+audio.addEventListener("pause",()=>playBtn.textContent="▶");
+audio.addEventListener("ended",()=>loadTrack(trackIndex+1,true));
+audio.addEventListener("loadedmetadata",()=> $("duration").textContent=time(audio.duration));
+audio.addEventListener("timeupdate",()=>{
+ if(!seeking&&audio.duration)progress.value=audio.currentTime/audio.duration*100;
+ $("currentTime").textContent=time(audio.currentTime);
+});
+progress.addEventListener("input",()=>{seeking=true;if(audio.duration)$("currentTime").textContent=time(progress.value/100*audio.duration)});
+progress.addEventListener("change",()=>{if(audio.duration)audio.currentTime=progress.value/100*audio.duration;seeking=false});
+volume.addEventListener("input",()=>{audio.volume=Number(volume.value);$("volumeIcon").textContent=audio.volume===0?"🔇":audio.volume<.5?"🔉":"🔊"});
+audio.volume=.65;loadTrack(0);
+
+(()=>{
+ const poster=$("poster"),canvas=$("hearts-canvas"),ctx=canvas.getContext("2d");
+ if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+ let w=0,h=0,dpr=1;
+ function resize(){const r=poster.getBoundingClientRect();dpr=Math.min(devicePixelRatio||1,2);w=r.width;h=r.height;canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+ class Heart{reset(random=false){this.x=Math.random()*w;this.y=random?Math.random()*h:h+25;this.s=6+Math.random()*9;this.v=.25+Math.random()*.55;this.dx=Math.random()*.35-.175;this.a=Math.random()*.5-.25}
+ constructor(){this.reset(true)}
+ update(){this.y-=this.v;this.x+=this.dx+Math.sin(this.y/32)*.2;if(this.y<-25||this.x<-20||this.x>w+20)this.reset()}
+ draw(){ctx.save();ctx.translate(this.x,this.y);ctx.rotate(this.a);ctx.fillStyle=heartColors[Math.floor(Math.abs(this.x+this.y))%heartColors.length];const s=this.s;ctx.beginPath();ctx.moveTo(0,s*.3);ctx.bezierCurveTo(-s,-s*.5,-s*1.3,s*.55,0,s*1.25);ctx.bezierCurveTo(s*1.3,s*.55,s,-s*.5,0,s*.3);ctx.fill();ctx.restore()}}
+ const hearts=Array.from({length:20},()=>new Heart());
+ function animate(){ctx.clearRect(0,0,w,h);hearts.forEach(p=>{p.update();p.draw()});requestAnimationFrame(animate)}
+ resize();animate();if("ResizeObserver"in window)new ResizeObserver(resize).observe(poster);else addEventListener("resize",resize);
+})();
+</script>
+</body>
+</html>
